@@ -8,13 +8,12 @@ prefix= /usr/local
 
 bindir= $(prefix)/bin
 
-default:
-	$(RM) dist
+default: clean
 	$(MKDIR) dist
-	$(CC) dist/cim src/cim.c
+	$(CC) dist/cim -Wall src/*.c
 
 install:
 	$(INSTALL) dist/cim $(bindir)/cim
 
 clean:
-	$(RM) dist
+	$(RM) dist src/*.o

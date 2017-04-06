@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "run_command.h"
 
 const char presentation_string[] =
     "  ___  ____  __  __ \n"
@@ -28,10 +29,9 @@ int main(int argc, char **argv)
     if (!(argc > 1))
     {
         show_presentation();
+
         return 0;
     }
 
-    printf("%s\n", "To be continued.");
-
-    return 0;
+    return run_command(argc, argv);
 }
