@@ -35,7 +35,7 @@ user@host:~$ cim
 
 ## TODO
 
-The "Issues" page from this repository is being used for TO-DO management, just search for the "to-do" tag.
+The "Issues" page from this repository is being used for TO-DO management.
 
 ## Credits
 
