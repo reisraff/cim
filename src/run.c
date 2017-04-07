@@ -14,26 +14,16 @@ int run_start(int argc, char **argv)
         return 1;
     }
 
-    const char path[] = ".cimtemp";
-    DIR *dir = opendir(path);
+    DIR *dir = opendir(".cimtemp");
     if (! dir)
     {
-        if (mkdir(path, 0700) < 0)
+        if (mkdir(".cimtemp", 0700) < 0)
         {
-            printf("Unable to create a directory in: '%s'\n", path);
+            printf("Unable to create a directory in: '%s'\n", ".cimtemp");
             return 1;
         }
     }
     closedir(dir);
-
-    const char filepath[] = ".cimtemp/cimtempfile.c";
-    FILE *file;
-    file = fopen(filepath, "w");
-    if (!file) {
-       printf("Unable to open the file '%s'.\n", filepath);
-       return 1;
-    }
-
 
     const char header[] =
         "#include <stdio.h>\n"
@@ -43,10 +33,16 @@ int run_start(int argc, char **argv)
         "\n}\n";
 
     char code[strlen(argv[2]) + strlen(header) + strlen(bottom)];
+    strcpy(code, "");
     strcpy(code, header);
     strcat(code, argv[2]);
     strcat(code, bottom);
 
+    FILE *file = fopen(".cimtemp/cimtempfile.c", "w");
+    if (!file) {
+       printf("Unable to open the file '%s'.\n", ".cimtemp/cimtempfile.c");
+       return 1;
+    }
     fwrite(code, 1, strlen(code), file);
     fclose (file);
 

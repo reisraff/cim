@@ -72,7 +72,10 @@ int run_interactive(int argc, char **argv)
         fwrite(code, 1, strlen(code), file);
         fclose (file);
 
-        system(command);
+        int out_signal = system(command);
+        if (out_signal != 0) {
+            continue;
+        }
 
         FILE *fp;
         char output[1035];
