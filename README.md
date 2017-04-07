@@ -1,6 +1,6 @@
 # CIM [BETA]
 
-Provide a way to run interactively a "C" code and also a simple piece of that.
+It provides a way to run interactively a "C" code and also a simple piece of that.
 
 ## What it does
 
