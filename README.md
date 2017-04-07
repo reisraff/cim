@@ -22,3 +22,21 @@ Available commands:
   run            Run a simple piece of code
   interactive    Run interactively
 ```
+
+## Install
+
+First clone the project and go to your directory, then:
+
+```
+user@host:~$ make
+user@host:~$ sudo make install
+user@host:~$ cim
+```
+
+## TODO
+
+The "Issues" page from this repository is being used for TO-DO management, just search for the "to-do" tag.
+
+## Credits
+
+[@reisraff](http://www.twitter.com/reisraff)
