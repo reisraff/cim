@@ -28,4 +28,3 @@ install:
 clean:
 	$(RM) $(lib_dir)
 	$(RM) $(dist) $(src)/*.o
-	$(CD) $(readline_lib_dir) && $(MAKE) clean
