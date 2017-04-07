@@ -43,16 +43,13 @@ int main(int argc, char **argv)
         if ((err = regcomp(&preg, regex, REG_EXTENDED|REG_NOSUB)) != REG_NOERROR)
             return err;
 
-        if ((err = regexec(&preg, argv[i], 0 , NULL, 0 )) != REG_NOERROR)
-        {
-            continue;
-        }
-        else
+        if ((err = regexec(&preg, argv[i], 0 , NULL, 0)) == REG_NOERROR)
         {
             show_presentation();
 
             return 0;
         }
+
         regfree(&preg);
     }
 
