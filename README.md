@@ -4,7 +4,11 @@ It provides a way to run interactively a "C" code and also a simple piece of tha
 
 ## What it does
 
-[![asciicast](https://asciinema.org/a/03x02boxgfy2aaxhw2nx1dpqy.png)](https://asciinema.org/a/03x02boxgfy2aaxhw2nx1dpqy)
+[![asciicast](https://asciinema.org/a/112026.png)](https://asciinema.org/a/112026)
+
+## Limitations
+
+For now you can just call function from stdio.h
 
 ## Install
 
