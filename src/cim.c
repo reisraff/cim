@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <regex.h>
+#include <string.h>
 #include "run_command.h"
 
 const char presentation_string[] =
@@ -37,20 +37,12 @@ int main(int argc, char **argv)
     int i;
     for (i = 1; i < argc; i++)
     {
-        regex_t preg;
-        reg_errcode_t err;
-        const char regex[] = "--help";
-        if ((err = regcomp(&preg, regex, REG_EXTENDED|REG_NOSUB)) != REG_NOERROR)
-            return err;
-
-        if ((err = regexec(&preg, argv[i], 0 , NULL, 0)) == REG_NOERROR)
+        if (!strcmp("--help", argv[i]))
         {
             show_presentation();
 
             return 0;
         }
-
-        regfree(&preg);
     }
 
     return run_command(argc, argv);

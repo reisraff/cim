@@ -5,9 +5,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <string.h>
-#include <regex.h>
 #include <signal.h>
-#include <ctype.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "interactive.h"
@@ -60,8 +58,6 @@ void get_interactivity()
     const char bottom[] =
         "\n}\n";
 
-    const char command[] = "gcc -o .cimtemp/cimtempbin .cimtemp/cimtempfile.c";
-
     while (1)
     {
         char *current_command = readline("C > ");
@@ -86,24 +82,16 @@ void get_interactivity()
         char *string = malloc(fsize + 1);
         fread(string, fsize, 1, f);
         fclose(f);
-
         string[fsize] = 0;
-        char commands[strlen(string) + strlen(current_command)];
-        strcpy(commands, "");
-        strcpy(commands, string);
-        strcat(commands, current_command);
-
-        char code[strlen(commands) + strlen(header) + strlen(bottom)];
-        strcpy(code, "");
-        strcpy(code, header);
-        strcat(code, commands);
-        strcat(code, bottom);
 
         FILE *file = fopen(".cimtemp/cimtempfile.c", "w");
-        fwrite(code, 1, strlen(code), file);
+        fwrite(header, 1, strlen(header), file);
+        fwrite(string, 1, strlen(string), file);
+        fwrite(current_command, 1, strlen(current_command), file);
+        fwrite(bottom, 1, strlen(bottom), file);
         fclose (file);
 
-        int out_signal = system(command);
+        int out_signal = system("gcc -o .cimtemp/cimtempbin .cimtemp/cimtempfile.c");
         if (out_signal != 0)
             continue;
 
@@ -121,31 +109,21 @@ void get_interactivity()
         while (fgets(output, sizeof(output) - 1, fp) != NULL)
             printf("%s", output);
 
+        pclose(fp);
+
         FILE *filecommands = fopen(".cimtemp/cimtempfilecommands", "a");
-
-        regex_t preg;
-        reg_errcode_t err;
-        const char regex[] = "printf";
-        if ((err = regcomp(&preg, regex, REG_EXTENDED|REG_NOSUB)) != REG_NOERROR)
-            exit(err);
-
-        if ((err = regexec(&preg, current_command, 0 , NULL, 0)) != REG_NOERROR)
+        if (strstr(current_command, "printf") == NULL)
         {
             fwrite(current_command, 1, strlen(current_command), filecommands);
             fwrite("\n", 1, 1, filecommands);
         }
-        regfree(&preg);
-
         fclose(filecommands);
 
-        pclose(fp);
-        unlink(".cimtemp/cimtempfile.c");
-        unlink(".cimtemp/cimtempfile");
         printf("\n");
     }
 
     unlink(".cimtemp/cimtempfile.c");
-    unlink(".cimtemp/cimtempfile");
+    unlink(".cimtemp/cimtempbin");
     unlink(".cimtemp/cimtempfilecommands");
     rmdir(".cimtemp");
 }

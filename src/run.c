@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#include <sys/types.h>
 #include <dirent.h>
 #include <unistd.h>
 #include <string.h>
@@ -34,12 +33,6 @@ int run_start(int argc, char **argv)
     const char bottom[] =
         "\n}\n";
 
-    char code[strlen(argv[2]) + strlen(header) + strlen(bottom)];
-    strcpy(code, "");
-    strcpy(code, header);
-    strcat(code, argv[2]);
-    strcat(code, bottom);
-
     FILE *file = fopen(".cimtemp/cimtempfile.c", "w");
     if (!file)
     {
@@ -47,11 +40,12 @@ int run_start(int argc, char **argv)
 
        return 1;
     }
-    fwrite(code, 1, strlen(code), file);
+    fwrite(header, 1, strlen(header), file);
+    fwrite(argv[2], 1, strlen(argv[2]), file);
+    fwrite(bottom, 1, strlen(bottom), file);
     fclose (file);
 
-    const char command[] = "gcc -o .cimtemp/cimtempbin .cimtemp/cimtempfile.c";
-    int out_signal = system(command);
+    int out_signal = system("gcc -o .cimtemp/cimtempbin .cimtemp/cimtempfile.c");
     if (out_signal != 0)
         return out_signal;
 
@@ -70,9 +64,11 @@ int run_start(int argc, char **argv)
         printf("%s", output);
 
     pclose(fp);
+
     unlink(".cimtemp/cimtempfile.c");
-    unlink(".cimtemp/cimtempfile");
+    unlink(".cimtemp/cimtempbin");
     rmdir(".cimtemp");
+
     printf("\n");
 
     return 0;
