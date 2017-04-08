@@ -8,7 +8,9 @@ It provides a way to run interactively a "C" code and also a simple piece of tha
 
 ## Limitations
 
-For now you can just call function from stdio.h
+- You can just call functions from stdio.h.
+- You can just shot a single line command. *(interactive mode) you can not open a bracet in one line and close in another*.
+- You can not declare functions.
 
 ## Install
 
