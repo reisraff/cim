@@ -7,7 +7,7 @@
 
 int run_start(int argc, char **argv)
 {
-    if (!(argc > 2))
+    if (argc < 3)
     {
         printf("Missing required argument <code>\n");
 
